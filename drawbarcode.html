@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HTML5 Barcode</title>
+</head>
+<body>
+<canvas id="myDrawing" width="960" height="720">
+			<p>Your browser doesn't support canvas.</p>
+		</canvas>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+<script src="sprintf-0.7-beta1.js"></script>
+<script type="text/javascript">//<![CDATA[
+(function($){
+  $.ajaxSetup({
+    cache: false // turn off AJAX caching
+  });
+if (typeof console === 'undefined' || !console.log) {
+  var console = { log: function () {}};
+};
+var drawingCanvas = document.getElementById('myDrawing');
+var context = drawingCanvas.getContext('2d');
+
+function drawBarcode(slice_index) {
+
+ url=sprintf("one-pixel-images/%05d",slice_index)+'.jpg';
+ console.log("url:"+url);
+ slice_image = new Image();
+ slice_image.src = url;
+ slice_image.onload = function() {
+   context.drawImage(slice_image, slice_index, 0);
+ };
+  
+
+ setTimeout(function () {drawBarcode(++slice_index);}, 1000);
+};
+
+drawBarcode(0);
+
+})(jQuery);
+//]]></script>
+
+</body>
+</html>
