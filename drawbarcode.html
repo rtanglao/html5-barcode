@@ -4,7 +4,7 @@
 <title>HTML5 Barcode</title>
 </head>
 <body>
-<canvas id="myDrawing" width="960" height="720">
+<canvas id="myDrawing" width="960" height="801">
 			<p>Your browser doesn't support canvas.</p>
 		</canvas>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
@@ -20,18 +20,37 @@ if (typeof console === 'undefined' || !console.log) {
 var drawingCanvas = document.getElementById('myDrawing');
 var context = drawingCanvas.getContext('2d');
 
+function drawCircle(x,y,radius,colour) {
+  console.log("x:"+x+" y:"+y+" radius:"+radius+" colour:"+colour);
+  context.strokeStyle = "#000000";
+  context.fillStyle = colour;
+  context.beginPath();
+  context.arc(x,y,radius,0,Math.PI*2,true);
+  context.closePath();
+  context.stroke();
+  context.fill();
+};
 function drawBarcode(slice_index) {
 
- url=sprintf("one-pixel-images/%05d",slice_index)+'.jpg';
- console.log("url:"+url);
- slice_image = new Image();
- slice_image.src = url;
+ drawCircle(slice_index % 900 + 6,6,5,"red");
+
+ var one_pix_url=sprintf("PM-ONE-PIXEL-IMAGES/%05d",slice_index)+'.jpg';
+ console.log("one pixel url:"+one_pix_url);
+ var slice_image = new Image();
+ slice_image.src = one_pix_url;
  slice_image.onload = function() {
-   context.drawImage(slice_image, slice_index, 0);
+   context.drawImage(slice_image, slice_index % 900, 86);
+ };
+
+ var sq_url=sprintf("PM-75X75/%04d",slice_index+1)+'.jpg';
+
+ var sq_image = new Image();
+ sq_image.src = sq_url;
+ sq_image.onload = function() {
+   context.drawImage(sq_image, (slice_index * 75) % 900, 11);
  };
   
-
- setTimeout(function () {drawBarcode(++slice_index);}, 1000);
+ setTimeout(function () {drawBarcode(++slice_index);}, 33);
 };
 
 drawBarcode(0);
