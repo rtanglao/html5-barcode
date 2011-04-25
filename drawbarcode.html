@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>HTML5 Barcode</title>
+<title>penmachine dodging buses barcode video</title>
 </head>
 <body>
+<audio autoplay="autoplay">
+<source src="penmachine-dodgingbuses.webm">
+<source src="penmachine-dodgingbuses.mp3">
+</audio>
 <canvas id="myDrawing" width="960" height="801">
 			<p>Your browser doesn't support canvas.</p>
 		</canvas>
@@ -17,6 +21,7 @@
 if (typeof console === 'undefined' || !console.log) {
   var console = { log: function () {}};
 };
+
 var drawingCanvas = document.getElementById('myDrawing');
 var context = drawingCanvas.getContext('2d');
 
@@ -49,8 +54,8 @@ function drawBarcode(slice_index) {
  sq_image.onload = function() {
    context.drawImage(sq_image, (slice_index * 75) % 900, 11);
  };
-  
- setTimeout(function () {drawBarcode(++slice_index);}, 33);
+ if (slice_index != 4622)
+    setTimeout(function () {drawBarcode(++slice_index);}, 33);
 };
 
 drawBarcode(0);
